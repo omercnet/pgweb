@@ -33,3 +33,4 @@ jobs:
           args: release --clean ${{ github.event_name == 'pull_request' && '--snapshot' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KO_DOCKER_REPO: ghcr.io/${{ github.repository }}

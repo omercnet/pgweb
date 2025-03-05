@@ -8,8 +8,7 @@ before:
     - go mod tidy
 
 builds:
-  - id: default
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -29,27 +28,19 @@ release:
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
 
 kos:
-  - id: default
-    build: default
-    main: .
-    working_dir: .
-    repositories:
-      - ghcr.io/omercnet/pgweb
-    platforms:
+  - platforms:
       - linux/amd64
       - linux/arm64
     tags:
       - latest
       - "{{.Tag}}"
-      - "{{if not .Prerelease}}stable{{end}}"
-      - "{{.Version}}"
-      - "{{.Major}}"
-      - "{{.Major}}.{{.Minor}}"
-      - "{{.Major}}.{{.Minor}}.{{.Patch}}"
-
-    creation_time: "{{.CommitTimestamp}}"
-    ko_data_creation_time: "{{.CommitTimestamp}}"
-    sbom: spdx
+    bare: true
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -extldflags "-static"
+      - -X main.Version={{.Tag}}
 
 docker_signs:
   - artifacts: manifests
