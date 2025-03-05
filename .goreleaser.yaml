@@ -13,20 +13,6 @@ builds:
     goos:
       - linux
 
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
-
-release:
-  footer: >-
-
-    ---
-
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
-
 kos:
   - platforms:
       - linux/amd64
@@ -42,5 +28,15 @@ kos:
       - -extldflags "-static"
       - -X main.Version={{.Tag}}
 
-docker_signs:
-  - artifacts: manifests
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
