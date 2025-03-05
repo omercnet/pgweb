@@ -1,4 +1,4 @@
-module github.com/descope-dev/pgweb
+module github.com/omercnet/pgweb
 
 go 1.24.0
 
