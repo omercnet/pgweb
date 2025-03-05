@@ -28,9 +28,6 @@ kos:
       - -extldflags "-static"
       - -X main.Version={{.Tag}}
 
-docker_signs:
-  - artifacts: manifests
-
 checksum:
   name_template: "checksums.txt"
 
@@ -43,14 +40,3 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-
-signs:
-  - cmd: cosign
-    artifacts: checksum
-    stdin: ""
-    args:
-      - sign-blob
-      - "--key=env://COSIGN_KEY"
-      - "--yes"
-      - "--output-signature=${signature}"
-      - "${artifact}"
