@@ -34,7 +34,7 @@ kos:
     main: .
     working_dir: .
     repositories:
-      - ghcr.io/descope-dev/pgweb
+      - ghcr.io/omercnet/pgweb
     platforms:
       - linux/amd64
       - linux/arm64
@@ -50,5 +50,6 @@ kos:
     creation_time: "{{.CommitTimestamp}}"
     ko_data_creation_time: "{{.CommitTimestamp}}"
     sbom: spdx
+
 docker_signs:
   - artifacts: manifests
