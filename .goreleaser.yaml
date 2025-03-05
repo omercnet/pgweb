@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: default
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+
+kos:
+  - id: default
+    build: default
+    main: .
+    working_dir: .
+    repositories:
+      - ghcr.io/descope-dev/pgweb
+    platforms:
+      - linux/amd64
+      - linux/arm64
+    tags:
+      - latest
+      - "{{.Tag}}"
+      - "{{if not .Prerelease}}stable{{end}}"
+      - "{{.Version}}"
+      - "{{.Major}}"
+      - "{{.Major}}.{{.Minor}}"
+      - "{{.Major}}.{{.Minor}}.{{.Patch}}"
+
+    creation_time: "{{.CommitTimestamp}}"
+    ko_data_creation_time: "{{.CommitTimestamp}}"
+    sbom: spdx
+docker_signs:
+  - artifacts: manifests
